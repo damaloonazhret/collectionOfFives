@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.jar {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    margin: 20px auto;
+    background: url('./image.jpg') no-repeat center/contain;
+}
+
+.score {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.falling-5 {
+    position: absolute;
+    font-size: 30px;
+    animation: fall 2s linear;
+}
+
+@keyframes fall {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 250px;
+        opacity: 0;
+    }
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
