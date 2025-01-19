@@ -1,24 +1,71 @@
-let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
-document.getElementById('score').textContent = score;
+let subjects = JSON.parse(localStorage.getItem('subjects')) || {};
 
-const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/7012');
+const sound = new Audio('https://www.fesliyanstudios.com/play-mp3/7012');
 
-function addFive() {
-    score++;
-    localStorage.setItem('score', score);
-    document.getElementById('score').textContent = score;
-
-    const jar = document.querySelector('.jar');
-    const fallingFive = document.createElement('div');
-    fallingFive.classList.add('falling-5');
-    fallingFive.textContent = '5';
-    fallingFive.style.left = Math.random() * 150 + 'px'; // Рандомное положение
-    jar.appendChild(fallingFive);
-
-    setTimeout(() => {
-        fallingFive.remove();
-    }, 2000);
-
-    audio.currentTime = 0;
-    audio.play();
+function calculateTotalScore() {
+    let totalScore = 0;
+    for (const score of Object.values(subjects)) {
+        totalScore += score;
+    }
+    document.getElementById('total-score').textContent = totalScore;
 }
+
+function addSubject() {
+    const subjectInput = document.getElementById('subject-input');
+    const subjectName = subjectInput.value.trim();
+
+    if (subjectName === '') {
+        alert('Введите название предмета!');
+        return;
+    }
+
+    if (subjects[subjectName]) {
+        alert('Такой предмет уже существует!');
+        return;
+    }
+
+    subjects[subjectName] = 0;
+    localStorage.setItem('subjects', JSON.stringify(subjects));
+    subjectInput.value = '';
+    renderSubjects();
+    calculateTotalScore();
+}
+
+function addSubjectFive(subject) {
+    subjects[subject]++;
+    localStorage.setItem('subjects', JSON.stringify(subjects));
+    renderSubjects();
+    calculateTotalScore();
+
+    sound.currentTime = 0;
+    sound.play();
+}
+
+function renderSubjects() {
+    const subjectsBody = document.getElementById('subjects-body');
+    subjectsBody.innerHTML = '';
+
+    for (const [subject, score] of Object.entries(subjects)) {
+        const row = document.createElement('tr');
+
+        const subjectCell = document.createElement('td');
+        subjectCell.textContent = subject;
+
+        const scoreCell = document.createElement('td');
+        scoreCell.textContent = score;
+
+        const actionCell = document.createElement('td');
+        const addButton = document.createElement('button');
+        addButton.textContent = 'Добавить пятерку';
+        addButton.onclick = () => addSubjectFive(subject);
+        actionCell.appendChild(addButton);
+
+        row.appendChild(subjectCell);
+        row.appendChild(scoreCell);
+        row.appendChild(actionCell);
+        subjectsBody.appendChild(row);
+    }
+}
+
+renderSubjects();
+calculateTotalScore();

@@ -9,9 +9,26 @@
 <body>
 <div class="container">
     <h1>Копилка пятерок</h1>
-    <p class="score">Пятерок в банке: <span id="score">0</span></p>
+    <p class="score">Общее количество пятерок: <span id="total-score">0</span></p>
     <div class="jar"></div>
-    <button onclick="addFive()">Получить пятерку!</button>
+
+    <h2>Добавить предмет</h2>
+    <input type="text" id="subject-input" placeholder="Введите название предмета">
+    <button onclick="addSubject()">Добавить предмет</button>
+
+    <h2>Пятерки по предметам</h2>
+    <div class="subjects-container">
+        <table id="subjects-table">
+            <thead>
+            <tr>
+                <th>Предмет</th>
+                <th>Количество пятерок</th>
+                <th>Добавить пятерку</th>
+            </tr>
+            </thead>
+            <tbody id="subjects-body"></tbody>
+        </table>
+    </div>
 </div>
 <script src="index.js"></script>
 </body>
